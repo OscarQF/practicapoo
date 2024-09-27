@@ -4,7 +4,7 @@ package es.upm.etsisi.poo;
  * Hello world!
  *
  */
-public class App 
+public class App
 {
    static Scanner sc = new Scanner(System.in);
 
