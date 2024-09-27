@@ -1,7 +1,10 @@
 package es.upm.etsisi.poo;
 
+import java.util.Scanner;
+
 /**
  * Hello world!
+ * ddddddddd
  *
  */
 public class App
@@ -108,6 +111,6 @@ public class App
     }
 
     public static boolean aniadirJugador(Jugador jugador){
-        return null;
+        return false;
     }
 }
