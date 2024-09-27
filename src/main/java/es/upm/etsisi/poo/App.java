@@ -103,14 +103,22 @@ public class App
 
         if(!encontrado){
             Jugador jugador = new Jugador(nombre,0.0,false);
-            if(aniadirJugador(jugador)){
+            if(aniadirJugador(jugador,jugadores)){
                 System.out.println("Jugador añadido cre");
-            }
+            }else System.out.println("No se ha podido añadir el jugador");
         }
 
     }
 
-    public static boolean aniadirJugador(Jugador jugador){
-        return false;
+    public static boolean aniadirJugador(Jugador jugador, Jugador[] jugadores){
+        boolean resul=false;
+        int i=0;
+        while (i<jugadores.length&&!resul){
+             if(jugadores[i]==null){
+                jugadores[i]=jugador;
+                resul=true;
+            }
+        }
+        return resul;
     }
 }
