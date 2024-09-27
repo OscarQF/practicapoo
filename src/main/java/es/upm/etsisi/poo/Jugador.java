@@ -45,4 +45,6 @@ public class Jugador {
     public void setEmparejamiento(boolean emparejamiento) {
         this.emparejamiento = emparejamiento;
     }
+
+    //MATEO
 }
