@@ -14,7 +14,7 @@ public class App {
         int numPlayers = 0;
 
         while(numPlayers <= 0 || numPlayers >10){
-            System.out.println("Introduzca el numero de jugadores a participar: ");
+            System.out.println("Introduce the number of players to participate: ");
             numPlayers = sc.nextInt();
         }
 
@@ -48,7 +48,7 @@ public class App {
     public static  void runElection(Player[] players, Matchmaking[] matchmakings, int option){
         switch (option){
             case 1:
-                createPlayer(players);
+                create(players);
                 break;
             case 2:
                 //eliminarJugador();
@@ -76,35 +76,56 @@ public class App {
                 break;
 
             default:
-                System.out.println("Eleccion incorrecta");
+                System.out.println("Incorrect election");
         }
     }
 
-    public static void createPlayer(Player[] players){
+    public static void create(Player[] players){
         String name = "";
-        System.out.println("Introduzca el nombre del jugador: ");
+        System.out.println("Introduce the player's name: ");
         name = sc.nextLine();
         boolean found = false;
-        int index = 0;
+        int i = 0;
 
         while(!found){
-            Player aux = players[index];
+            Player aux = players[i];
             if(aux.getName().equalsIgnoreCase(name)){
                 found = true;
             }
-            index++;
+            i++;
         }
 
         if(!found){
             Player player = new Player(name,0.0,false);
-            if(addPlayer(player)){
-                System.out.println("Jugador añadido cre");
+            if(addPlayer(player,players)){
+                System.out.println("Player added");
             }
         }
 
     }
 
-    public static boolean addPlayer(Player player){
+    public static boolean addPlayer(Player player,Player[] players){
+        int i=0;
+        while(){
+
+        }
         return false;
+    }
+
+    public static void remove(Player player, Player[] players){
+        boolean found=false;
+        int i=0;
+        while(!found && i< players.length){
+            if(player.getName().equals(players[i].getName())){
+                found=true;
+                for(int j=i;j< players.length-1;j++){
+                    players[j]=players[j+1];
+                }
+                players[players.length-1]=null;
+            }else{
+                i++;
+            }
+        }
+
     }
 }
