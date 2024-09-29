@@ -1,33 +1,28 @@
 package es.upm.etsisi.poo;
 
-import java.util.Scanner;
+import java.util.*;
 
-/**
- * Hello world!
- * ddddddddd
- *
- */
-public class App
+public class App 
 {
    static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        iniciarEvento();
+        startEvent();
     }
-    public static void iniciarEvento(){
-        int opcion;
-        boolean salir = false;
-        int numJugadores = 0;
+    public static void startEvent(){
+        int option;
+        boolean exit = false;
+        int numPlayers = 0;
 
-        while(numJugadores <= 0 || numJugadores >10){
-            System.out.println("Introduzca el numero de jugadores a participar: ");
-            numJugadores = sc.nextInt();
+        while(numPlayers <= 0 || numPlayers >10){
+            System.out.println("Introduce the number of participating players: ");
+            numPlayers = sc.nextInt();
         }
 
-        Jugador[] jugadores = new Jugador[numJugadores];
-        Emparejamiento[] listaEmparejamientos = new Emparejamiento[Math.round(jugadores.length/2)];
+        ArrayList<Player> players = new ArrayList<>();
+        Matchmaking[] matchmakingList = new Matchmaking[Math.round(players.size()/2)];
 
-        while(!salir){
+        while(!exit){
             System.out.println(
                     "1.> create [player]\n" +
                     "2.> remove [player]\n" +
@@ -40,21 +35,21 @@ public class App
                     "9.> random_matchmake\n" +
                     "10.> end");
             sc.nextLine();
-            opcion = sc.nextInt();
+            option = sc.nextInt();
 
-            if(opcion != 10){
-                ejecutarEleccion(jugadores,listaEmparejamientos, opcion);
+            if(option != 10){
+                executeChoice(players,matchmakingList, option);
             } else {
-                salir= true;
+                exit= true;
                 sc.close();
             }
         }
     }
 
-    public static  void ejecutarEleccion(Jugador[] jugadores, Emparejamiento[] emparejamientos, int opcion){
-        switch (opcion){
+    public static  void executeChoice(ArrayList<Player> players, Matchmaking[] matchmakings, int option){
+        switch (option){
             case 1:
-                crearJugador(jugadores);
+                createPlayer(players);
                 break;
             case 2:
                 //eliminarJugador();
@@ -82,35 +77,52 @@ public class App
                 break;
 
             default:
-                System.out.println("Eleccion incorrecta");
+                System.out.println("Wrong choice");
         }
     }
 
-    public static void crearJugador(Jugador[] jugadores){
-        String nombre = "";
-        System.out.println("Introduzca el nombre del jugador: ");
-        nombre = sc.nextLine();
-        boolean encontrado = false;
-        int indice = 0;
+    public static void createPlayer(ArrayList<Player> players){
+        String name = "";
+        System.out.println("Introduce player's name: ");
+        name = sc.nextLine();
+        boolean found = false;
+        int index = 0;
 
-        while(!encontrado){
-            Jugador aux = jugadores[indice];
-            if(aux.getNombre().equalsIgnoreCase(nombre)){
-                encontrado = true;
+        while(!found){
+            Player aux = players.get(index);
+            if(aux.getName().equalsIgnoreCase(name)){
+                found = true;
             }
-            indice++;
+            index++;
         }
 
-        if(!encontrado){
-            Jugador jugador = new Jugador(nombre,0.0,false);
-            if(aniadirJugador(jugador)){
-                System.out.println("Jugador añadido cre");
+        if(!found){
+            Player player = new Player(name,0.0,false);
+            if(addPlayer(player)){
+                System.out.println("Player added");
             }
         }
 
     }
+    public static boolean removePlayer(ArrayList<Player> players, Player player){
+        boolean correct = false;
+        boolean eliminated = false;
+        int numPlayersBefore = players.size();
+        int i = 0;
+        while(i < numPlayersBefore || eliminated){
+            if(player.getName() == players.get(i).getName()){
+               players.remove(i);
+               eliminated = true;
+            }
+            i++;
+        }
+        if(players.size() == numPlayersBefore -1){
+            correct = true;
+        }
+        return correct;
+    }
 
-    public static boolean aniadirJugador(Jugador jugador){
+    public static boolean addPlayer(Player player){
         return false;
     }
 }
