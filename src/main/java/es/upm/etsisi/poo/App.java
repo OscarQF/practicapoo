@@ -14,7 +14,7 @@ public class App
         boolean exit = false;
         int numPlayers = 0;
 
-        while(numPlayers <= 0 || numPlayers >10){
+        while(numPlayers <= 0 || numPlayers > 20){
             System.out.println("Introduce the number of participating players: ");
             numPlayers = sc.nextInt();
         }
@@ -52,7 +52,7 @@ public class App
                 createPlayer(players);
                 break;
             case 2:
-                //eliminarJugador();
+                removePlayer(players);
                 break;
             case 3:
                 //mostrarJugadores();
@@ -81,54 +81,63 @@ public class App
         }
     }
 
-    public static void createPlayer(ArrayList<Player> players){
+    /*
+        Method for obtaining player's name
+     */
+    private static String getNamePlayer(){
         String name = "";
         System.out.println("Introduce player's name: ");
         name = sc.nextLine();
-        boolean found = false;
-        int index = 0;
 
-        while(!found){
-            Player aux = players.get(index);
-            if(aux.getName().equalsIgnoreCase(name)){
-                found = true;
+        return name;
+    }
+
+    /*
+        Method that you can get the player with the name,
+        if the player does not exist, the result is null,
+        otherwise it returns the player.
+     */
+    private static Player getPlayer(ArrayList<Player> players, String name){
+        Player playerRes = null;
+
+        for (Player player: players) {
+            if(player.getName().equalsIgnoreCase(name)){
+                playerRes = player;
             }
-            index++;
         }
 
-        if(!found){
-            Player player = new Player(name,0.0,false);
-            if(addPlayer(player,players)){
+        return playerRes;
+    }
+    public static void createPlayer(ArrayList<Player> players){
+       String name = getNamePlayer();
+       Player player = getPlayer(players,name);
+
+        if(player == null){
+            Player newPlayer = new Player(name,0.0,false);
+            if(players.add(newPlayer)){
                 System.out.println("Player added");
             }
+        } else {
+            System.out.println("Player exits");
         }
 
     }
-    public static boolean removePlayer(ArrayList<Player> players, Player player){
-        boolean correct = false;
-        boolean eliminated = false;
-        int numPlayersBefore = players.size();
-        int i = 0;
-        while(i < numPlayersBefore || eliminated){
-            if(player.getName().equals(players.get(i).getName()) ){
-               players.remove(i);
-               eliminated = true;
+    public static void removePlayer(ArrayList<Player> players){
+        String name = getNamePlayer();
+        Player player = getPlayer(players,name);
+
+        if(player != null){
+            System.out.println("Players before: "+ players.size());
+            if(players.remove(player)){
+                System.out.println("Player eliminated");
+                System.out.println("Remaining Players: "+ players.size());
+
             }
-            i++;
+        } else {
+            System.out.println("The player doesn't exist");
         }
-        if(players.size() == numPlayersBefore -1){
-            correct = true;
-        }
-        return correct;
     }
 
-    public static boolean addPlayer(Player player,ArrayList<Player> players){
-        boolean c=false;
-       if(players.add(player)){
-           c=true;
-        }
-        return c;
-    }
     public static void showPlayers(ArrayList<Player> players){
         for(int i=0;i<players.size();i++){
             System.out.println(players.get(i).getName()+" ("+players.get(i).getScore()+") ");
