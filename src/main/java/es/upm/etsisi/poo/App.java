@@ -1,6 +1,6 @@
 package es.upm.etsisi.poo;
-
 import java.util.*;
+import java.util.Scanner;
 
 public class App 
 {
@@ -98,7 +98,7 @@ public class App
 
         if(!found){
             Player player = new Player(name,0.0,false);
-            if(addPlayer(player)){
+            if(addPlayer(player,players)){
                 System.out.println("Player added");
             }
         }
@@ -110,7 +110,7 @@ public class App
         int numPlayersBefore = players.size();
         int i = 0;
         while(i < numPlayersBefore || eliminated){
-            if(player.getName() == players.get(i).getName()){
+            if(player.getName().equals(players.get(i).getName()) ){
                players.remove(i);
                eliminated = true;
             }
@@ -122,7 +122,38 @@ public class App
         return correct;
     }
 
-    public static boolean addPlayer(Player player){
-        return false;
+    public static boolean addPlayer(Player player,ArrayList<Player> players){
+        boolean c=false;
+       if(players.add(player)){
+           c=true;
+        }
+        return c;
+    }
+    public static void showPlayers(ArrayList<Player> players){
+        for(int i=0;i<players.size();i++){
+            System.out.println(players.get(i).getName()+" ("+players.get(i).getScore()+") ");
+        }
+    }
+    public static void rankPlayers(ArrayList<Player> players){
+        arrange(players,0,players.size()-1);
+        System.out.println("-----RANKING-----");
+        for(int i=0;i<players.size();i++){
+            System.out.println(players.get(i).getName()+" ("+players.get(i).getScore()+") ");
+        }
+    }
+    public static void arrange(ArrayList<Player> players,int i0, int in){
+        if(i0<in){
+            //there is more than one player in the arraylist
+            for(int i=0;i<in-i0;i++){
+            double ele=players.get(i).getScore();
+            if(ele < players.get(i+1).getScore()) {
+                Player aux;
+                aux = players.get(i);
+                players.set(i, players.get(i + 1));
+                players.set(i + 1, aux);
+            }
+            }
+        }
+        arrange(players,i0+1,in);
     }
 }
