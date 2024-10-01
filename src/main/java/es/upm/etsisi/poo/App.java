@@ -165,4 +165,16 @@ public class App
         }
         arrange(players,i0+1,in);
     }
+    public static void setScore(Player player){
+        double score=0.0;
+        boolean isDouble=true;
+        System.out.println("Introduce new score for the player: ");
+        try {
+            score = sc.nextDouble();
+        }catch (InputMismatchException e){
+            System.out.println("Introduce a number");
+            isDouble=false;
+        }
+        if (isDouble) player.setScore(score);
+    }
 }
