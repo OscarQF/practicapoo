@@ -155,15 +155,15 @@ public class App
             //there is more than one player in the arraylist
             for(int i=0;i<in-i0;i++){
             double ele=players.get(i).getScore();
-            if(ele < players.get(i+1).getScore()) {
-                Player aux;
-                aux = players.get(i);
-                players.set(i, players.get(i + 1));
-                players.set(i + 1, aux);
+               if(ele < players.get(i+1).getScore()) {
+                   Player aux;
+                   aux = players.get(i);
+                   players.set(i, players.get(i + 1));
+                   players.set(i + 1, aux);
+               }
             }
-            }
+           arrange(players,i0+1,in);
         }
-        arrange(players,i0+1,in);
     }
     public static void setScore(Player player){
         double score=0.0;
