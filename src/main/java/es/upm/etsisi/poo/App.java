@@ -2,28 +2,41 @@ package es.upm.etsisi.poo;
 import java.util.*;
 import java.util.Scanner;
 
-public class App 
-{
+public class App {
    static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
         startEvent();
     }
+
+    private static void loadData(ArrayList<Player> players){
+        Player Luisa = new Player("Luisa",4.5,false);
+        Player Manuel = new Player("Manuel",2.7,false);
+        Player Kurt = new Player("Kurt",4.0,false);
+        Player Sofia = new Player("Sofia",3.8,false);
+        Player Robert = new Player("Robert",3.8,false);
+        players.add(Luisa);
+        players.add(Manuel);
+        players.add(Kurt);
+        players.add(Sofia);
+        players.add(Robert);
+
+        // QUITAR
+        Player player = new Player("Prueba", 1.1, false);
+        players.add(player);
+    }
     public static void startEvent(){
         int option;
         boolean exit = false;
-        int numPlayers = 0;
-
-        while(numPlayers <= 0 || numPlayers > 20){
-            System.out.println("Introduce the number of participating players: ");
-            numPlayers = sc.nextInt();
-        }
 
         ArrayList<Player> players = new ArrayList<>();
-        Matchmaking[] matchmakingList = new Matchmaking[Math.round(players.size()/2)];
+        ArrayList<Matchmaking> matchmakingList = new ArrayList<>();
+
+        loadData(players);
 
         while(!exit){
             System.out.println(
+                    "---------------------------------------\n"+
                     "1.> create [player]\n" +
                     "2.> remove [player]\n" +
                     "3.> show\n" +
@@ -33,9 +46,10 @@ public class App
                     "7.> clear_matchmake\n" +
                     "8.> matchmake [player1];[player2]\n" +
                     "9.> random_matchmake\n" +
-                    "10.> end");
-            sc.nextLine();
+                    "10.> end\n" +
+                    "---------------------------------------");
             option = sc.nextInt();
+            sc.nextLine();
 
             if(option != 10){
                 executeChoice(players,matchmakingList, option);
@@ -46,7 +60,7 @@ public class App
         }
     }
 
-    public static  void executeChoice(ArrayList<Player> players, Matchmaking[] matchmakings, int option){
+    public static  void executeChoice(ArrayList<Player> players, ArrayList<Matchmaking> matchmakings, int option){
         switch (option){
             case 1:
                 createPlayer(players);
@@ -55,25 +69,31 @@ public class App
                 removePlayer(players);
                 break;
             case 3:
-                //mostrarJugadores();
+                showPlayers(players);
                 break;
             case 4:
-                //mostrarRanking();
+                rankPlayers(players);
                 break;
             case 5:
-                //establecerPuntuacion();
+                //setScore(player);
                 break;
             case 6:
-                //mostrarEmparejamiento();
+                showMachmaking(matchmakings);
                 break;
             case 7:
-                //borrarEmparejamiento();
+                deleteMachmakings(matchmakings);
                 break;
             case 8:
-                //crearEmparejamiento();
+                String nameFirstPlayer = getNamePlayer();
+                Player firstPlayer = getPlayer(players,nameFirstPlayer);
+
+                String nameSecondPlayer = getNamePlayer();
+                Player secondPlayer = getPlayer(players,nameSecondPlayer);
+
+                makeMachmaking(matchmakings,firstPlayer,secondPlayer);
                 break;
             case 9:
-                //emparejamientoRandom();
+                randomMachmaking(players,matchmakings);
                 break;
 
             default:
@@ -86,12 +106,13 @@ public class App
      */
     private static String getNamePlayer(){
         String name = "";
-        System.out.println("Introduce player's name: ");
-        name = sc.nextLine();
+        do{
+            System.out.println("Introduce player's name: ");
+            name = sc.nextLine();
+        } while(name.isEmpty());
 
         return name;
     }
-
     /*
         Method that you can get the player with the name,
         if the player does not exist, the result is null,
@@ -137,7 +158,6 @@ public class App
             System.out.println("The player doesn't exist");
         }
     }
-
     public static void showPlayers(ArrayList<Player> players){
         for(int i=0;i<players.size();i++){
             System.out.println(players.get(i).getName()+" ("+players.get(i).getScore()+") ");
@@ -155,14 +175,27 @@ public class App
             //there is more than one player in the arraylist
             for(int i=0;i<in-i0;i++){
             double ele=players.get(i).getScore();
-               if(ele < players.get(i+1).getScore()) {
-                   Player aux;
-                   aux = players.get(i);
-                   players.set(i, players.get(i + 1));
-                   players.set(i + 1, aux);
-               }
+                if(ele < players.get(i+1).getScore()) {
+                    Player aux;
+                    aux = players.get(i);
+                    players.set(i, players.get(i + 1));
+                    players.set(i + 1, aux);
+                }
             }
-           arrange(players,i0+1,in);
+            arrange(players,i0+1,in);
+        }
+    }
+    public static void makeMachmaking(ArrayList<Matchmaking> matchmakings,Player firstPlayer,Player secondPlayer){
+        if(firstPlayer == null || secondPlayer == null){
+            System.out.println("One of the players doesn't exist");
+        } else {
+            if(!firstPlayer.getMatchmaked() && !secondPlayer.getMatchmaked()) {
+                Matchmaking match = new Matchmaking(firstPlayer, secondPlayer);
+                firstPlayer.setMatchmaking(true);
+                secondPlayer.setMatchmaking(true);
+                matchmakings.add(match);
+                System.out.println("Matchmaking added");
+            }
         }
     }
     public static void setScore(Player player){
@@ -177,4 +210,44 @@ public class App
         }
         if (isDouble) player.setScore(score);
     }
+    public static void showMachmaking(ArrayList<Matchmaking> matchmakings){
+
+        if(!matchmakings.isEmpty()){
+            for (Matchmaking match: matchmakings){
+                System.out.println(match.getPlayer1().getName() + " vs " + match.getPlayer2().getName());
+            }
+        } else {
+            System.out.println("Empty");
+        }
+
+
+    }
+    public static void deleteMachmakings(ArrayList<Matchmaking> matchmakings){
+        for (int i = matchmakings.size()-1; i >= 0; i--){
+            matchmakings.get(i).getPlayer1().setMatchmaking(false);
+            matchmakings.get(i).getPlayer2().setMatchmaking(false);
+            matchmakings.remove(matchmakings.get(i));
+        }
+    }
+    public static void randomMachmaking(ArrayList<Player> players, ArrayList<Matchmaking> matchmakings){
+        if(players.size() % 2 != 0){
+            System.out.println("Not available");
+        } else {
+            while (matchmakings.size() != players.size()/2){
+                int random1 = (int) (Math.random() * players.size());
+                Player player1 = players.get(random1);
+
+                int random2 = random1;
+
+                do {
+                    random2 = (int) (Math.random() * players.size());
+                } while(random2 == random1);
+
+                Player player2 = players.get(random2);
+                makeMachmaking(matchmakings,player1,player2);
+
+            }
+        }
+    }
 }
+
