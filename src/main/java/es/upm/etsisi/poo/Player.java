@@ -38,7 +38,7 @@ public class Player {
         this.score = score;
     }
 
-    public boolean Matchmaked() {
+    public boolean getMatchmaked() {
         return matchmaked;
     }
 
