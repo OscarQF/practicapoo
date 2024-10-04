@@ -187,25 +187,45 @@ public class App {
             System.out.println("One of the players doesn't exist");
         } else {
             if(!firstPlayer.getMatchmaked() && !secondPlayer.getMatchmaked()) {
-                Matchmaking match = new Matchmaking(firstPlayer, secondPlayer);
-                firstPlayer.setMatchmaking(true);
-                secondPlayer.setMatchmaking(true);
-                matchmakings.add(match);
-                System.out.println("Matchmaking added");
+                if(!firstPlayer.equals(secondPlayer)) {
+                    Matchmaking match = new Matchmaking(firstPlayer, secondPlayer);
+                    firstPlayer.setMatchmaking(true);
+                    secondPlayer.setMatchmaking(true);
+                    matchmakings.add(match);
+                    System.out.println("Matchmaking added");
+                }else{
+                    System.out.println("You can not matchmake the same person with its-self");
+                }
+            }else{
+                System.out.println("One player has already been matchmaked");
             }
         }
     }
     public static void setScore(Player player){
         double score=0.0;
         boolean isDouble=true;
-        System.out.println("Introduce new score for the player: ");
-        try {
-            score = sc.nextDouble();
-        }catch (InputMismatchException e){
-            System.out.println("Introduce a number");
-            isDouble=false;
+        boolean correct=false;
+        if(player==null){
+            System.out.println("Player does not exist");
+        }else {
+            do {
+                System.out.println("Introduce new score for the player: ");
+                try {
+                    score = sc.nextDouble();
+                } catch (InputMismatchException e) {
+                    System.out.println("Introduce a number");
+                    isDouble = false;
+
+                }
+                if(isDouble){
+                    player.setScore(score);
+                    correct=true;
+                }else{
+                    sc.next();
+                    isDouble=true;
+                }
+            }while(!correct);
         }
-        if (isDouble) player.setScore(score);
     }
     public static void showMachmaking(ArrayList<Matchmaking> matchmakings){
 
@@ -225,6 +245,7 @@ public class App {
             matchmakings.get(i).getPlayer2().setMatchmaking(false);
             matchmakings.remove(matchmakings.get(i));
         }
+        System.out.println("All matchmakings have been deleted ");
     }
     public static void randomMachmaking(ArrayList<Player> players, ArrayList<Matchmaking> matchmakings){
         if(players.size() % 2 != 0){
