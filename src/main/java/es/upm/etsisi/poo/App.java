@@ -75,7 +75,7 @@ public class App {
                 rankPlayers(players);
                 break;
             case 5:
-                //setScore(player);
+                setScore(getPlayer(players,getNamePlayer()));
                 break;
             case 6:
                 showMachmaking(matchmakings);
@@ -231,7 +231,7 @@ public class App {
     }
     public static void randomMachmaking(ArrayList<Player> players, ArrayList<Matchmaking> matchmakings){
         if(players.size() % 2 != 0){
-            System.out.println("Not available");
+            System.out.println("Not available. Number of players is not even");
         } else {
             while (matchmakings.size() != players.size()/2){
                 int random1 = (int) (Math.random() * players.size());
