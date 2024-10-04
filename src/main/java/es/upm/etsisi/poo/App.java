@@ -21,9 +21,6 @@ public class App {
         players.add(Sofia);
         players.add(Robert);
 
-        // QUITAR
-        Player player = new Player("Prueba", 1.1, false);
-        players.add(player);
     }
     public static void startEvent(){
         int option;
