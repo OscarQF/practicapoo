@@ -18,9 +18,6 @@ public class Player {
     }
 
     // METODOS
-    public Player[] rankingPlayers(Player[] arrayPlayers){
-        return null;
-    }
     // GETTERS Y SETTERS
     public String getName() {
         return name;
