@@ -75,10 +75,10 @@ public class App {
                 setScore(getPlayer(players,getNamePlayer()));
                 break;
             case 6:
-                showMachmaking(matchmakings);
+                showMatchmaking(matchmakings);
                 break;
             case 7:
-                deleteMachmakings(matchmakings);
+                deleteMatchmakings(matchmakings);
                 break;
             case 8:
                 String nameFirstPlayer = getNamePlayer();
@@ -87,10 +87,10 @@ public class App {
                 String nameSecondPlayer = getNamePlayer();
                 Player secondPlayer = getPlayer(players,nameSecondPlayer);
 
-                makeMachmaking(matchmakings,firstPlayer,secondPlayer);
+                makeMatchmaking(matchmakings,firstPlayer,secondPlayer);
                 break;
             case 9:
-                randomMachmaking(players,matchmakings);
+                randomMatchmaking(players,matchmakings);
                 break;
 
             default:
@@ -182,7 +182,7 @@ public class App {
             arrange(players,i0+1,in);
         }
     }
-    public static void makeMachmaking(ArrayList<Matchmaking> matchmakings,Player firstPlayer,Player secondPlayer){
+    public static void makeMatchmaking(ArrayList<Matchmaking> matchmakings,Player firstPlayer,Player secondPlayer){
         if(firstPlayer == null || secondPlayer == null){
             System.out.println("One of the players doesn't exist");
         } else {
@@ -227,7 +227,7 @@ public class App {
             }while(!correct);
         }
     }
-    public static void showMachmaking(ArrayList<Matchmaking> matchmakings){
+    public static void showMatchmaking(ArrayList<Matchmaking> matchmakings){
 
         if(!matchmakings.isEmpty()){
             for (Matchmaking match: matchmakings){
@@ -239,7 +239,7 @@ public class App {
 
 
     }
-    public static void deleteMachmakings(ArrayList<Matchmaking> matchmakings){
+    public static void deleteMatchmakings(ArrayList<Matchmaking> matchmakings){
         for (int i = matchmakings.size()-1; i >= 0; i--){
             matchmakings.get(i).getPlayer1().setMatchmaking(false);
             matchmakings.get(i).getPlayer2().setMatchmaking(false);
@@ -247,7 +247,7 @@ public class App {
         }
         System.out.println("All matchmakings have been deleted ");
     }
-    public static void randomMachmaking(ArrayList<Player> players, ArrayList<Matchmaking> matchmakings){
+    public static void randomMatchmaking(ArrayList<Player> players, ArrayList<Matchmaking> matchmakings){
         if(players.size() % 2 != 0){
             System.out.println("Not available. Number of players is not even");
         } else {
@@ -262,7 +262,7 @@ public class App {
                 } while(random2 == random1);
 
                 Player player2 = players.get(random2);
-                makeMachmaking(matchmakings,player1,player2);
+                makeMatchmaking(matchmakings,player1,player2);
 
             }
         }
