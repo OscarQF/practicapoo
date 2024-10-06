@@ -251,19 +251,14 @@ public class App {
         if(players.size() % 2 != 0){
             System.out.println("Not available. Number of players is not even");
         } else {
-            while (matchmakings.size() != players.size()/2){
-                int random1 = (int) (Math.random() * players.size());
-                Player player1 = players.get(random1);
+            ArrayList<Player> availablePlayers = new ArrayList<>(players);
+            while (!availablePlayers.isEmpty()) {
+                int random1 = (int) (Math.random() * availablePlayers.size());
+                Player player1 = availablePlayers.remove(random1);
 
-                int random2 = random1;
-
-                do {
-                    random2 = (int) (Math.random() * players.size());
-                } while(random2 == random1);
-
-                Player player2 = players.get(random2);
-                makeMatchmaking(matchmakings,player1,player2);
-
+                int random2 = (int) (Math.random() * availablePlayers.size());
+                Player player2 = availablePlayers.remove(random2);
+                makeMatchmaking(matchmakings, player1, player2);
             }
         }
     }
